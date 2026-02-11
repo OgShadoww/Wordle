@@ -1,15 +1,22 @@
-.global _main
+; ==============================
+; UI MODULE
+; ==============================
+; ui_clear()
+; ui_draw_board(secret, guesses)
+; ui_print_colored_word(word, colors)
+.global _ui_clear
+.global _ui_draw_board
 
-.extern _get_term_size
-
-_main:
-  bl _print_board
-
-  mov X0, #0
-  mov X16, #1
+_ui_clear:
+  mov X0, #1 
+  adr X1, ansi_clear
+  mov X2, 7
+  mov X16, #4
   svc 0x80
 
-_print_board:
+  ret
+
+_ui_draw_board:
   mov X0, #1
   adr X1, board
   mov X2, 16
