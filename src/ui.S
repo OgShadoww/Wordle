@@ -8,19 +8,19 @@
 .global _ui_draw_board
 
 _ui_clear:
-  mov X0, #1 
-  adr X1, ansi_clear
-  mov X2, 7
-  mov X16, #4
+  mov x0, #1
+  adr x1, ansi_clear
+  mov x2, 7
+  mov x16, #4
   svc 0x80
 
   ret
 
 _ui_draw_board:
-  mov X0, #1
-  adr X1, board
-  mov X2, 16
-  mov X16, #4
+  mov x0, #1
+  adr x1, board
+  mov x2, 16
+  mov x16, #4
   svc 0x80
 
   ret
@@ -42,5 +42,3 @@ ansi_grey:
 
 board:
   .asciz "[ ][ ][ ][ ][ ]\n"
-
-
