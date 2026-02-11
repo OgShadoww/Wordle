@@ -36,7 +36,7 @@ void print_num(int n) {
     buff[i - 1 - j] = tmp;
   }
   
-  write(STDOUT_FILENO, buff, strlen(buff));
+  printf("%s", buff);
   fflush(stdout);
   return;
 }
