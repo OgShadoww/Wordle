@@ -1,8 +1,6 @@
 .global _set_secret_word
 .extern _rand
-.extern _print_num
 .extern secret_word
-.extern _exit
 
 _set_secret_word:
   stp x29, x30, [sp, #-16]!
@@ -41,14 +39,6 @@ _set_secret_word:
   mov x16, #3
   svc #0x80
 
-  ; Writing result
-  mov x2, x0
-  mov x0, #1
-  adrp x1, secret_word@PAGE
-  add x1, x1, secret_word@PAGEOFF
-  mov x16, #4
-  svc #0x80
- 
   ldp x29, x30, [sp], #16
   ret
 

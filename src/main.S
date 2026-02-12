@@ -13,6 +13,15 @@ _main:
 
   bl _set_secret_word
 
+   ; Writing result
+  mov x2, x0
+  mov x0, #1
+  adrp x1, secret_word@PAGE
+  add x1, x1, secret_word@PAGEOFF
+  mov x16, #4
+  svc #0x80
+
+
   bl _exit
 
 .section __DATA,__bss

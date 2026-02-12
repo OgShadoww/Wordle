@@ -1,8 +1,6 @@
 .section __TEXT,__text
 .global _rand
 .extern _get_current_ms
-.extern _print_num
-.extern _exit
 
 _rand:
   stp x29, x30, [sp, #-16]!
