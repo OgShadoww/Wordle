@@ -23,6 +23,15 @@ _set_secret_word:
 
   mov x19, x0
 
+  ; Lseek to set specific offest for the file
+  mov x0, x19
+  mov x14, #6
+  mul x15, x15, x14
+  mov x1, x15
+  mov x2, #0
+  mov x16, #199
+  svc #0x80
+
   ; Reading the file
   ; Adress of variable
   mov x0, x19
