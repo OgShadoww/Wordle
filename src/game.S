@@ -1,6 +1,7 @@
 .global _set_secret_word
 .extern _rand
 .extern secret_word
+.extern _ui_print_board
 
 _set_secret_word:
   stp x29, x30, [sp, #-16]!
@@ -42,7 +43,10 @@ _set_secret_word:
   ldp x29, x30, [sp], #16
   ret
 
-
+  
+_game_main_loop:
+  ; Read character
+  
 
 file: .asciz "../words/en.txt"
 
