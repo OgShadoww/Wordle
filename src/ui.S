@@ -4,9 +4,9 @@
 .extern secret_word
 
 _ui_draw_board:
+  ; x0 = n; x1 = word
   mov x17, x0 ; n
-  adrp x15, secret_word@PAGE
-  add x15, x15, secret_word@PAGEOFF
+  mov x15, x1
   mov x14, #0 ; i
 
 _loop:
@@ -61,6 +61,12 @@ _fininsh_cell:
   
   ret
 
+_ui_print_menu:
+  bl _ui_clear
+  
+  ; Read char
+
+
 _ui_clear:
   mov x0, #1
   adrp x1, ansi_clear@PAGE
@@ -71,7 +77,6 @@ _ui_clear:
 
   ret
 
-_ui_insert_key:
   
 
 .section __TEXT,__cstring,cstring_literals
