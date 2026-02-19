@@ -40,7 +40,7 @@ _set_secret_word:
   mov x2, #6
   mov x16, #3
   svc #0x80
-
+ 
   mov x0, x9
   mov x16, #6
   svc #0x80
@@ -103,6 +103,3 @@ _error:
 
 file: .asciz "words/en.txt"
 success: .asciz "\nSuccess\n"
-
-;.section __DATA,__bss
-;.p2align 2

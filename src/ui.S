@@ -61,12 +61,6 @@ _fininsh_cell:
   
   ret
 
-_ui_print_menu:
-  bl _ui_clear
-  
-  ; Read char
-
-
 _ui_clear:
   mov x0, #1
   adrp x1, ansi_clear@PAGE
@@ -77,7 +71,12 @@ _ui_clear:
 
   ret
 
+ _ui_print_menu:
+  bl _ui_clear
   
+  ; Move cursor to center
+
+ 
 
 .section __TEXT,__cstring,cstring_literals
 ansi_clear: .asciz "\x1b[2J\x1b[H"
