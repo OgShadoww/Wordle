@@ -1,8 +1,49 @@
 .section __TEXT,__text
 .global _ui_clear
-.global _ui_draw_board
+.global _ui_draw_board_center
+.extern _get_term_size
+.extern _move_cursor
 .extern secret_word
 
+// Draw board at the center x0 = n, x1 = word
+_ui_draw_board_center:
+  stp x29, x30, [sp, #-16]!
+  mov x29, sp
+  stp x19, x20, [sp, #-16]!
+
+  mov x20, x0          // save n
+  mov x19, x1          // save word pointer
+
+  adrp x0, height@PAGE
+  add  x0, x0, height@PAGEOFF
+  adrp x1, width@PAGE
+  add  x1, x1, width@PAGEOFF
+  bl   _get_term_size
+
+  adrp x3, width@PAGE
+  add  x3, x3, width@PAGEOFF
+  ldr  w0, [x3]          // w0 = width
+  mov  w3, #2
+  udiv w0, w0, w3        // w0 = width / 2
+  sub w0, w0, #5
+
+  adrp x4, height@PAGE
+  add  x4, x4, height@PAGEOFF
+  ldr  w1, [x4]          // w1 = height
+  udiv w1, w1, w3        // w1 = height / 2
+  sub w1, w1, #6
+
+  bl   _move_cursor
+
+  mov x0, x20
+  mov x1, x19
+  bl   _ui_draw_board
+
+  ldp x19, x20, [sp], #16
+  ldp x29, x30, [sp], #16
+  ret
+
+; x0 = n; x1 = word
 _ui_draw_board:
   ; x0 = n; x1 = word
   mov x17, x0 ; n
@@ -77,7 +118,6 @@ _ui_clear:
   ; Move cursor to center
 
  
-
 .section __TEXT,__cstring,cstring_literals
 ansi_clear: .asciz "\x1b[2J\x1b[H"
 ansi_reset: .asciz "\x1b[0m"
@@ -89,3 +129,8 @@ board_open: .asciz "["
 board_close: .asciz "]"
 space: .asciz " "
 new_line: .asciz "\n"
+
+.section __DATA,__data
+.p2align 3
+height: .word 0
+width: .word 0

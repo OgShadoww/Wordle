@@ -54,6 +54,7 @@ _read_char_to_buff:
   mov x8, x1
 
   ; Read 1 byte into stack
+read_again:
   sub sp, sp, #16
   mov x0, #0
   mov x1, sp
@@ -68,10 +69,7 @@ _read_char_to_buff:
   add sp, sp, #16
  
   cmp w9, #'\n'
-  ; Prepare parameters
-  mov x0, x7
-  mov x1, x8
-  beq _handle_return
+  beq handle_return
 
   ; Save value from stack to word[i]
   add x8, x8, x7
@@ -79,10 +77,10 @@ _read_char_to_buff:
 
   ret
 
-_handle_return:
+handle_return:
   ; Check if the i positin is last
-  cmp x0, #5
-  b.ne _read_char_to_buff
+  cmp x7, #5
+  b.ne read_again
 
   ; Write Sucess
   mov x0, #1

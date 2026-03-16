@@ -1,31 +1,45 @@
 .section __TEXT,__text
 .global _main
 .extern _ui_clear
-.extern _ui_draw_board
+.extern _ui_draw_board_center
 .extern _exit
 .extern _rand
 .extern _set_secret_word
 .extern _read_char_to_buff
 
 _main:
+  stp x29, x30, [sp, #-16]!
+  mov x29, sp
+  stp x19, x20, [sp, #-16]!
+
   bl _set_secret_word
+  bl _ui_clear
 
-  mov x0, #0
+  mov x19, #0
+
+loop:
+  mov x0, x19
   adrp x1, user_word@PAGE
-  add x1, x1, user_word@PAGEOFF
-  bl _read_char_to_buff
-  add x0, x0, #1
-  bl _read_char_to_buff
-  add x0, x0, #1
-  bl _read_char_to_buff
-  add x0, x0, #1
+  add  x1, x1, user_word@PAGEOFF
+  bl _ui_draw_board_center
+
+  mov x0, x19
+  adrp x1, user_word@PAGE
+  add  x1, x1, user_word@PAGEOFF
   bl _read_char_to_buff
 
-  mov x0, #4
+  mov x0, x19
   adrp x1, user_word@PAGE
-  add x1, x1, user_word@PAGEOFF
-  bl _ui_draw_board
-  
+  add  x1, x1, user_word@PAGEOFF
+  bl _ui_draw_board_center
+
+  add x19, x19, #1
+  cmp x19, #6
+  b.lt loop
+
+  ldp x19, x20, [sp], #16
+  ldp x29, x30, [sp], #16
+
   mov x0, #0
   bl _exit
 

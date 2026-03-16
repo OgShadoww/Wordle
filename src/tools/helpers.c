@@ -5,11 +5,18 @@
 #include <time.h>
 #include <unistd.h>
 
+int move_cursor(int x, int y) {
+  dprintf(STDOUT_FILENO, "\033[%d;%dH", y, x);
+
+  return 0;
+}
+
 int get_term_size(int *rows, int *cols) {
     struct winsize ws;
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) != 0) return -1;
     *rows = (int)ws.ws_row;
     *cols = (int)ws.ws_col;
+
     return 0;
 }
 
