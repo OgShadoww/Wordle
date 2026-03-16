@@ -1,18 +1,22 @@
 .section __TEXT,__text
 .global _ui_clear
-.global _ui_draw_board_center
+.global _ui_draw_board
 .extern _get_term_size
 .extern _move_cursor
 .extern secret_word
 
-// Draw board at the center x0 = n, x1 = word
-_ui_draw_board_center:
+; x0 = n; x1 = word
+_ui_draw_board:
+  ; Save stack pointer
   stp x29, x30, [sp, #-16]!
+  stp x14, x15, [sp, #-16]!
+  stp x16, x17, [sp, #-16]!
   mov x29, sp
-  stp x19, x20, [sp, #-16]!
-
-  mov x20, x0          // save n
-  mov x19, x1          // save word pointer
+  
+  ; x0 = n; x1 = word
+  mov x17, x0 ; n
+  mov x15, x1
+  mov x14, #0 ; i
 
   adrp x0, height@PAGE
   add  x0, x0, height@PAGEOFF
@@ -35,20 +39,8 @@ _ui_draw_board_center:
 
   bl   _move_cursor
 
-  mov x0, x20
-  mov x1, x19
-  bl   _ui_draw_board
-
-  ldp x19, x20, [sp], #16
-  ldp x29, x30, [sp], #16
-  ret
-
-; x0 = n; x1 = word
-_ui_draw_board:
-  ; x0 = n; x1 = word
-  mov x17, x0 ; n
-  mov x15, x1
-  mov x14, #0 ; i
+  mov x1, x15
+  mov x0, x17
 
 _loop:
   ; Print [
@@ -99,6 +91,11 @@ _fininsh_cell:
   mov x2, #1
   mov x16, #4
   svc #0x80
+
+  ldp x14, x15, [sp], #16
+  ldp x16, x17, [sp], #16
+  ldp x29, x30, [sp], #16
+
   
   ret
 

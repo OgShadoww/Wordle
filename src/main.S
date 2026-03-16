@@ -1,7 +1,7 @@
 .section __TEXT,__text
 .global _main
 .extern _ui_clear
-.extern _ui_draw_board_center
+.extern _ui_draw_board
 .extern _exit
 .extern _rand
 .extern _set_secret_word
@@ -21,7 +21,7 @@ loop:
   mov x0, x19
   adrp x1, user_word@PAGE
   add  x1, x1, user_word@PAGEOFF
-  bl _ui_draw_board_center
+  bl _ui_draw_board
 
   mov x0, x19
   adrp x1, user_word@PAGE
@@ -31,7 +31,7 @@ loop:
   mov x0, x19
   adrp x1, user_word@PAGE
   add  x1, x1, user_word@PAGEOFF
-  bl _ui_draw_board_center
+  bl _ui_draw_board
 
   add x19, x19, #1
   cmp x19, #6
